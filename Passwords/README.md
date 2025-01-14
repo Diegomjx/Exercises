@@ -23,7 +23,7 @@ Ensure that your wordlists are placed in a directory called wordlists at the roo
 
 ```css
 project-root/
-├── src/
+├── Secure_Password.java
 ├── wordlists/
 │   ├── rockyou.txt
 │   ├── english.txt
