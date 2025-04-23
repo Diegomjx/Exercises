@@ -1,40 +1,29 @@
 class Solution {
     public int countLargestGroup(int n) {
-        if ( n < 10) return n;
+        int[] count = new int[37]; 
+        int maxSize = 0;
+        int groups = 0;
 
-        int groups = 1;
-        int sum = 0;
-        int[] arr = new int[36];
-
-        for ( int i = 1; i <= n ; i++){
-            arr[num_digit(i)-1]++;
-            
-        }
-
-        for ( int i = 0; i < arr.length; i++ ){
-            if ( arr[i] == sum){
-                groups++;
-            }else if ( arr[i] > sum ){
+        for (int i = 1; i <= n; i++) {
+            int sum = digitSum(i);
+            count[sum]++;
+            if (count[sum] > maxSize) {
+                maxSize = count[sum];
                 groups = 1;
-                sum = arr[i];
+            } else if (count[sum] == maxSize) {
+                groups++;
             }
         }
-        
+
         return groups;
-        
     }
 
-    int num_digit( int n){
-           int sum = 0;
-           String num = Integer.toString(n);
-
-           for ( char c : num.toCharArray()){
-            sum =sum+ c - '0';
-
-           }
-
-           return sum;
-            
+    private int digitSum(int num) {
+        int sum = 0;
+        while (num > 0) {
+            sum += num % 10;
+            num /= 10;
         }
+        return sum;
+    }
 }
-
