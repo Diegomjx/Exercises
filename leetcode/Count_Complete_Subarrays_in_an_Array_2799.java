@@ -1,51 +1,33 @@
-// 1. Find distinct elementes in the array
-// 2. Count complete subarrays in an Array
+// File: Solution.java
 
+import java.util.*;
 
 class Solution {
     public int countCompleteSubarrays(int[] nums) {
+        int n = nums.length;
 
-        HashSet<Integer> k = new HashSet<Integer>();
-        int num_repeat =0;
-        int subarray = 0;
+        // Step 1: Get total distinct elements
+        Set<Integer> uniqueSet = new HashSet<>();
+        for (int num : nums) uniqueSet.add(num);
+        int totalDistinct = uniqueSet.size();
 
-        for ( int unique: nums){
-                k.add(unique);
-        }
+        int left = 0, result = 0;
+        Map<Integer, Integer> freqMap = new HashMap<>();
 
-        num_repeat = k.size();
+        for (int right = 0; right < n; right++) {
+            freqMap.put(nums[right], freqMap.getOrDefault(nums[right], 0) + 1);
 
-        if (num_repeat ==0){
-            return 1;
-        }
-
-        
-
-        for (int i = 0; i < nums.length; i++ ){
-            int n = num_repeat;
-            k.clear();
-
-            for (int j=i; j < nums.length; j++){
-
-
-                
-                if ( !k.contains( nums[j]  )){
-                     n--;
-                     k.add(nums[j]);
-
-                     }
-                     
-                if ( n == 0){
-                    subarray += nums.length-j;
-                    break;
+            while (freqMap.size() == totalDistinct) {
+                result += n - right;
+                int leftVal = nums[left];
+                freqMap.put(leftVal, freqMap.get(leftVal) - 1);
+                if (freqMap.get(leftVal) == 0) {
+                    freqMap.remove(leftVal);
                 }
-
-                    
-            }   
+                left++;
+            }
         }
 
-        
-        return subarray;
-        
+        return result;
     }
 }
